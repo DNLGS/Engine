@@ -1,6 +1,7 @@
 #include "window_internal.h"
+#include <windowsx.h>
 
-LRESULT CALLBACK WindowCallback(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam){
     WindowState* pstate = GetAppState(hwnd);
     WindowCallbacks* cb = (pstate) ? pstate->callbacks : NULL;
     
@@ -22,13 +23,14 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
             cb->OnDestroy(hwnd);
         if (pstate->isMainWindow)
             PostQuitMessage(0);
+        free(pstate);
         return 0;
 
     case WM_CLOSE:
         if (cb && cb->OnClose) {
             if (cb->OnClose(hwnd))
                 DestroyWindow(hwnd);
-        } else {
+        } else {            
             DestroyWindow(hwnd);
         }
         break;
@@ -122,11 +124,4 @@ LRESULT CALLBACK WindowCallback(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lPar
     }
 
     return DefWindowProc(hwnd, uMsg, wParam, lParam);
-}
-
-inline WindowState* GetAppState(HWND hwnd)
-{
-    LONG_PTR ptr = GetWindowLongPtr(hwnd, GWLP_USERDATA);
-    WindowState *pState = (WindowState*)(ptr);
-    return pState;
 }

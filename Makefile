@@ -1,60 +1,57 @@
-# Compilador e flags
 CC      := gcc
 CFLAGS  := -Wall -Wextra -std=c11 -pedantic
-LDFLAGS :=
-LDLIBS  :=
+LDFLAGS := -Wl,-subsystem,console
 
-# Diretórios
-SRCDIR  := src
+SRCDIR := src src/window src/render src/dependencies/glad/src
 INCDIR  := include
 LIBDIR  := lib
 BUILDDIR := build
 BINDIR  := bin
 TESTDIR := test
 
-# Arquivos
+INCLUDES := -I$(INCDIR) -Isrc/dependencies/glad/include
 TARGET  := $(BINDIR)/programa
-SOURCES := $(wildcard $(SRCDIR)/*.c)
-OBJECTS := $(patsubst $(SRCDIR)/%.c, $(BUILDDIR)/%.o, $(SOURCES))
+SOURCES := $(foreach dir, $(SRCDIR), $(wildcard $(dir)/*.c))
+OBJECTS := $(patsubst %.c, $(BUILDDIR)/%.o, $(notdir $(SOURCES)))
 LIBOBJS := $(wildcard $(LIBDIR)/*.c)
 LIBS    := $(patsubst $(LIBDIR)/%.c, $(BUILDDIR)/lib%.a, $(LIBOBJS))
+VPATH    := $(SRCDIR)
 
-# Cabeçalhos
-INCLUDES := -I$(INCDIR)
+LDLIBS := -lopengl32 -lgdi32
 
-# Regra principal
 all: dirs $(TARGET)
 
-# Criar diretórios se não existirem
-dirs:
-	@mkdir -p $(BUILDDIR) $(BINDIR)
+all: dirs
+	@echo SOURCES = $(SOURCES)
+	@echo OBJECTS = $(OBJECTS)
 
-# Compilar .c da src/ para .o na build/
-$(BUILDDIR)/%.o: $(SRCDIR)/%.c
+dirs:
+	@if not exist $(BUILDDIR) mkdir $(BUILDDIR)
+	@if not exist $(BINDIR) mkdir $(BINDIR)
+
+build/glad.o: src/dependencies/glad/src/glad.c
+	$(CC) $(CFLAGS) -Wno-pedantic $(INCLUDES) -c $< -o $@
+
+$(BUILDDIR)/%.o: %.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
-# Compilar .c da lib/ para biblioteca estática
 $(BUILDDIR)/lib%.a: $(LIBDIR)/%.c
 	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $(BUILDDIR)/$*.o
 	ar rcs $@ $(BUILDDIR)/$*.o
 
-# Linkar executável
 $(TARGET): $(OBJECTS) $(LIBS)
 	$(CC) $(CFLAGS) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
-# Compilar testes
 test: CFLAGS += -g -O0
 test: $(TARGET)
 	$(CC) $(CFLAGS) $(INCLUDES) $(TESTDIR)/*.c $(OBJECTS) -o $(BINDIR)/test_runner
 	./$(BINDIR)/test_runner
 
-# Limpar arquivos gerados
 clean:
-	rm -rf $(BUILDDIR) $(BINDIR)
+	@if exist $(BUILDDIR) rmdir /s /q $(BUILDDIR)
+	@if exist $(BINDIR) rmdir /s /q $(BINDIR)
 
-# Limpar tudo (incluindo bibliotecas compiladas)
 distclean: clean
-	rm -rf $(LIBDIR)/*.a
+	@if exist $(LIBDIR) rmdir /s /q $(LIBDIR)
 
-# Não tratar nomes de diretório como alvos
 .PHONY: all dirs test clean distclean

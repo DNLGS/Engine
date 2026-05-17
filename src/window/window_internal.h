@@ -60,6 +60,11 @@ typedef struct {
 } WindowState;
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
-inline WindowState* GetAppState(HWND hwnd);
+
+static inline WindowState* GetAppState(HWND hwnd)
+{
+    LONG_PTR ptr = GetWindowLongPtr(hwnd, GWLP_USERDATA);
+    return (WindowState*)(ptr);
+}
 
 #endif
