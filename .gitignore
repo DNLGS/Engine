@@ -1,0 +1,79 @@
+# Compilados e objetos
+*.o
+*.a
+*.so
+*.so.*
+*.dylib
+*.dll
+*.exe
+*.out
+*.app
+
+# Debug e profiling
+*.dSYM/
+*.su
+*.idb
+*.pdb
+gmon.out
+
+# Pré-processados e dependências gerados pelo compilador
+*.i
+*.ii
+*.s
+*.d
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+install_manifest.txt
+compile_commands.json
+CTestTestfile.cmake
+_deps/
+
+# Autotools
+Makefile.in
+configure
+autom4te.cache/
+aclocal.m4
+config.guess
+config.sub
+depcomp
+install-sh
+ltmain.sh
+missing
+stamp-h1
+.deps/
+.libs/
+
+# Make
+*.mk
+
+# Valgrind
+vgcore.*
+callgrind.out.*
+massif.out.*
+
+# Editores
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+\#*\#
+
+# Clangd / LSP
+.clangd/
+.cache/
+
+# Cobertura de testes
+*.gcno
+*.gcda
+*.gcov
+
+# Binários de saída comuns
+build/
+dist/
+out/
+bin/
