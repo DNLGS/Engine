@@ -1,4 +1,4 @@
-#include "opengl_render.h"
+#include "opengl_context.h"
 
 // Creditos ao https://github.com/ColleagueRiley/OpenGL-Context-Creation
 

@@ -1,6 +1,6 @@
 #include <glad/glad.h>
 #include "window/window_user.h"
-#include "render/opengl_render.h"
+#include "window/opengl_context.h"
 
 int OnSizeCB(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam){
     (void)hwnd;
