@@ -10,28 +10,28 @@ typedef enum {
 } Button;
 
 typedef struct {
-    int (CALLBACK *WindowCreateCallback)(HWND, CREATESTRUCT*);
-    int (CALLBACK *WindowDestroyCallback)(HWND);
-    int (CALLBACK *WindowCloseCallback)(HWND);
-    int (CALLBACK *WindowSizeCallback)(HWND, UINT, WPARAM, LPARAM);
-    int (CALLBACK *WindowActivateCallback)(HWND, WPARAM, LPARAM);
-    int (CALLBACK *WindowSetFocusCallback)(HWND);
-    int (CALLBACK *WindowKillFocusCallback)(HWND);
+    LRESULT (CALLBACK *WindowCreateCallback)(HWND, CREATESTRUCT*);
+    LRESULT (CALLBACK *WindowDestroyCallback)(HWND);
+    LRESULT (CALLBACK *WindowCloseCallback)(HWND);
+    LRESULT (CALLBACK *WindowSizeCallback)(HWND, UINT, WPARAM, LPARAM);
+    LRESULT (CALLBACK *WindowActivateCallback)(HWND, WPARAM, LPARAM);
+    LRESULT (CALLBACK *WindowSetFocusCallback)(HWND);
+    LRESULT (CALLBACK *WindowKillFocusCallback)(HWND);
 
     // Input Teclado
-    int (CALLBACK *WindowKeyDownCallback)(HWND, WPARAM, LPARAM);
-    int (CALLBACK *WindowKeyUpCallback)(HWND, WPARAM, LPARAM);
+    LRESULT (CALLBACK *WindowKeyDownCallback)(HWND, WPARAM, LPARAM);
+    LRESULT (CALLBACK *WindowKeyUpCallback)(HWND, WPARAM, LPARAM);
 
     // Input Mouse
-    int (CALLBACK *WindowMouseMoveCallback)(HWND, int, int, WPARAM);
-    int (CALLBACK *WindowMouseWheelCallback)(HWND, int, int, int, WPARAM);
-    int (CALLBACK *WindowMouseDown)(HWND, Button, int, int, WPARAM);
-    int (CALLBACK *WindowMouseUp)(HWND, Button, int, int,WPARAM);
+    LRESULT (CALLBACK *WindowMouseMoveCallback)(HWND, int, int, WPARAM);
+    LRESULT (CALLBACK *WindowMouseWheelCallback)(HWND, int, int, int, WPARAM);
+    LRESULT (CALLBACK *WindowMouseDown)(HWND, Button, int, int, WPARAM);
+    LRESULT (CALLBACK *WindowMouseUp)(HWND, Button, int, int,WPARAM);
 
     // Sistema
-    int (CALLBACK *WindowTimerCallback)(HWND, UINT_PTR);
-    int (CALLBACK *WindowPaintCallback)(HWND, HDC, RECT);
-    int (CALLBACK *WindowEraseBackGroundCallback)(HWND, WPARAM);
+    LRESULT (CALLBACK *WindowTimerCallback)(HWND, UINT_PTR);
+    LRESULT (CALLBACK *WindowPaintCallback)(HWND, HDC, RECT);
+    LRESULT (CALLBACK *WindowEraseBackGroundCallback)(HWND, WPARAM);
 
 } WindowCallbacks;
 

@@ -2,7 +2,7 @@
 #include "window/window_user.h"
 #include "window/opengl_context.h"
 
-CALLBACK int OnSizeCB(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam){
+CALLBACK LRESULT OnSizeCB(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam){
     (void)hwnd;
     (void)msg;
     (void)wparam;
