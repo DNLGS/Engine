@@ -1,18 +1,18 @@
-#include <glad/glad.h>
+#include "render/render_opengl.h"
 #include "window/window_user.h"
 #include "window/opengl_context.h"
 
-int OnSizeCB(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam){
+CALLBACK int OnSizeCB(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam){
     (void)hwnd;
     (void)msg;
     (void)wparam;
-    glViewport(0,0,LOWORD(lparam),HIWORD(lparam));
+    setViewPort(0,0,LOWORD(lparam),HIWORD(lparam));
     return 0;
 }
 
 int main()
 {
-    WindowCallbacks cb = {.OnSize= OnSizeCB};
+    WindowCallbacks cb = {.WindowSizeCallback = OnSizeCB};
     WindowConfig config = {
         .mainWindow = TRUE,
         .title      = "Programa",
@@ -40,15 +40,13 @@ int main()
         return 1;
     }
 
-    glViewport(0,0,config.width, config.height);
+    setViewPort(0,0,config.width, config.height);
     
     HDC hdc = GetDC(hwnd);
     Show(hwnd, 1);
     while (!isShouldClose())
     {
-        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        
+        Render();        
         SwapBuffers(hdc);
     }
     
