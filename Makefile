@@ -2,7 +2,7 @@ CC      := gcc
 CFLAGS  := -Wall -Wextra -std=c11 -pedantic
 LDFLAGS := -Wl,-subsystem,console
 
-SRCDIR := src src/window src/render src/dependencies/glad/src
+SRCDIR := src src/window src/shader src/render src/dependencies/glad/src
 INCDIR  := include
 LIBDIR  := lib
 BUILDDIR := build
